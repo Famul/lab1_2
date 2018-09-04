@@ -12,18 +12,12 @@
  */
 package pl.com.bottega.ecommerce.sales.domain.invoicing;
 
-import java.util.List;
-
-import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientData;
-
 public class BookKeeper {
 
-    public Invoice issuance(ClientData client, List<RequestItem> items) {
-        InvoiceFactory invoiceFactory = new InvoiceFactory();
-        Invoice invoice = invoiceFactory.createInvoice(client);
+    public Invoice issuance(InvoiceRequest invoiceRequest, InvoiceFactory invoiceFactory, TaxFactory taxFactory) {
+        Invoice invoice = invoiceFactory.createInvoice(invoiceRequest.getClient());
 
-        TaxFactory taxFactory = new TaxFactory();
-        for (RequestItem item : items) {
+        for (RequestItem item : invoiceRequest.getItems()) {
 
             Tax tax = taxFactory.createTax(item);
 
